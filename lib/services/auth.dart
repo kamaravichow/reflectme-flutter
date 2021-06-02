@@ -1,9 +1,9 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class AuthService {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -36,9 +36,11 @@ class AuthService {
   }
 
   Future<User?> emailLogin(String email, String password) async {
+    print("logging in..");
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+      print("updating user data");
       updateUserdata(userCredential.user);
       return userCredential.user;
     } on FirebaseAuthException catch (e) {

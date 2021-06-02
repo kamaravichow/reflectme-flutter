@@ -12,6 +12,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   AuthService auth = AuthService();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  String email = "";
+  String password = "";
 
   @override
   void initState() {
@@ -60,6 +65,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: TextField(
                       cursorColor: Colors.white30,
                       textAlign: TextAlign.center,
+                      onChanged: (String text) {
+                        email = text;
+                      },
+                      controller: _emailController,
                       style: TextStyle(fontSize: 18, color: Colors.white),
                       decoration: InputDecoration(
                           hintText: "Email",
@@ -78,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: true,
                       cursorColor: Colors.white30,
                       textAlign: TextAlign.center,
+                      controller: _passwordController,
                       style: TextStyle(fontSize: 18, color: Colors.white),
                       decoration: InputDecoration(
                           hintText: "Password",
@@ -103,6 +113,41 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      if (_emailController.text.isNotEmpty &&
+                          _passwordController.text.isNotEmpty) {
+                        if (_passwordController.text.length > 6) {
+                          auth
+                              .emailLogin(_emailController.text,
+                                  _passwordController.text)
+                              .then((value) => {
+                                    if (value != null)
+                                      {
+                                        if (value.emailVerified)
+                                          {
+                                            print("pushing to home"),
+                                            Navigator.of(context)
+                                                .pushNamedAndRemoveUntil(
+                                                    '/home', (route) => false),
+                                          }
+                                        else
+                                          {
+                                            print("email not verified"),
+                                            auth
+                                                .checkEmailVerification()
+                                                .then((value) => print(value)),
+                                            //TODO Email verification screen
+                                          }
+                                      }
+                                  });
+                        } else {
+                          new SnackBar(
+                              content: Text(
+                                  "Password need to be atleast 6 characters"));
+                        }
+                      } else {
+                        new SnackBar(
+                            content: Text("Enter a valid email or password"));
+                      }
                       // Navigator.of(context).pushReplacement(MaterialPageRoute(
                       //     builder: (context) => HomeScreen()));
                     },

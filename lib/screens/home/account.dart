@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gratitude/services/auth.dart';
 import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -8,10 +9,10 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  AuthService auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
-    var user = Provider.of<User>(context);
-
     return Scaffold(
       body: Container(
           child: Column(
@@ -34,14 +35,14 @@ class _AccountScreenState extends State<AccountScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      " " + user.displayName.toString(),
+                      "Aravi",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 30,
                       ),
                     ),
                     Text(
-                      "" + user.email.toString(),
+                      "" + auth.user!.email.toString(),
                       style: TextStyle(color: Colors.grey[500]),
                     ),
                   ],
