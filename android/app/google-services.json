@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "271283769272",
+    "firebase_url": "https://beyouappin.firebaseio.com",
+    "project_id": "beyouappin",
+    "storage_bucket": "beyouappin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271283769272:android:34847e80f0ef2839a1494d",
+        "android_client_info": {
+          "package_name": "me.aravi.gratitude"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271283769272-401sfp9bn7mu2mklrli251t4va0olmtc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtjFqY0t2lpYyGX6VvKJHbTHfl7tYNkro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271283769272-401sfp9bn7mu2mklrli251t4va0olmtc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "271283769272-bmr1kjjahcoug49g7u29gb61d1j5c8uh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "me.aravi.gratitude"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
