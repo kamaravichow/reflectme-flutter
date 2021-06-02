@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gratitude/screens/home/home.dart';
+import 'package:gratitude/services/auth.dart';
+import 'package:provider/provider.dart';
 import '../../shared/common.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -8,6 +11,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  AuthService auth = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    if (auth.user != null) {
+      Navigator.pushReplacementNamed(context, '/home');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,8 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => HomeScreen()));
+                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      //     builder: (context) => HomeScreen()));
                     },
                     child: Container(
                       width: double.infinity,
