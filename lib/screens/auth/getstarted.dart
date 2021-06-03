@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gratitude/screens/auth/login.dart';
 import 'package:gratitude/screens/auth/signup.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart' as rive;
 
 class GettingStartedScreen extends StatefulWidget {
@@ -9,6 +11,18 @@ class GettingStartedScreen extends StatefulWidget {
 }
 
 class _GettingStartedScreenState extends State<GettingStartedScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    if (auth.currentUser != null) {
+      Future.delayed(Duration(milliseconds: 100), () {
+        Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

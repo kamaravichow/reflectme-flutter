@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 
 class AuthService {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
@@ -35,8 +36,8 @@ class AuthService {
     return user.emailVerified;
   }
 
-  Future<User?> emailLogin(String email, String password) async {
-    print("logging in..");
+  Future<User?> emailLogin(
+      String email, String password, BuildContext context) async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -44,7 +45,7 @@ class AuthService {
       updateUserdata(userCredential.user);
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
-      print(e.message);
+      _showSnackbar(e.message ?? 'Error', context);
       return null;
     }
   }
@@ -59,5 +60,24 @@ class AuthService {
 
   Future<void> signOut() {
     return _auth.signOut();
+  }
+
+  _showSnackbar(String message, BuildContext context) {
+    var snackbar = new SnackBar(
+        backgroundColor: Colors.white,
+        content: Container(
+          width: double.infinity,
+          alignment: Alignment.center,
+          height: 30,
+          child: Text(
+            message,
+            style: TextStyle(
+                color: Colors.black54,
+                fontSize: 14,
+                fontWeight: FontWeight.bold),
+          ),
+        ));
+
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 }

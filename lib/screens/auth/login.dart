@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gratitude/screens/home/home.dart';
 import 'package:gratitude/services/auth.dart';
-import 'package:provider/provider.dart';
 import '../../shared/common.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,21 +13,26 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  String email = "";
-  String password = "";
+  bool _showDialog = false;
+
+  var snackbar;
 
   @override
   void initState() {
-    super.initState();
     if (auth.user != null) {
-      Navigator.pushReplacementNamed(context, '/home');
+      // Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      // Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(builder: (context) => HomeScreen()));
     }
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: AnimatedContainer(
+        duration: Duration(milliseconds: 1000),
+        curve: Curves.fastLinearToSlowEaseIn,
         width: double.infinity,
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -37,164 +40,199 @@ class _LoginScreenState extends State<LoginScreen> {
                 end: Alignment(1.0, 1.0),
                 colors: [Colors.purple, Colors.purple, Colors.deepPurple])),
         child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Title
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text(
-                  "Account\nLogin",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 44,
-                    color: Colors.black12,
+          child: Stack(children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Title
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    "Welcome back,\nLet's get back to your account",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: Colors.white30,
+                    ),
                   ),
                 ),
-              ),
 
-              // Boxes
-              Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(10)),
-                    margin: EdgeInsets.all(20),
-                    padding: EdgeInsets.all(10),
-                    child: TextField(
-                      cursorColor: Colors.white30,
-                      textAlign: TextAlign.center,
-                      onChanged: (String text) {
-                        email = text;
-                      },
-                      controller: _emailController,
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                      decoration: InputDecoration(
-                          hintText: "Email",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(color: Colors.grey[400])),
-                      maxLines: 1,
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black12,
-                        borderRadius: BorderRadius.circular(10)),
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    padding: EdgeInsets.all(10),
-                    child: TextField(
-                      obscureText: true,
-                      cursorColor: Colors.white30,
-                      textAlign: TextAlign.center,
-                      controller: _passwordController,
-                      style: TextStyle(fontSize: 18, color: Colors.white),
-                      decoration: InputDecoration(
-                          hintText: "Password",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(color: Colors.grey[400])),
-                      maxLines: 1,
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      "FORGOT ?",
-                      textAlign: TextAlign.end,
-                      style: TextStyle(color: Colors.white38),
-                    ),
-                  )
-                ],
-              ),
-
-              // Footer
-              Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (_emailController.text.isNotEmpty &&
-                          _passwordController.text.isNotEmpty) {
-                        if (_passwordController.text.length > 6) {
-                          auth
-                              .emailLogin(_emailController.text,
-                                  _passwordController.text)
-                              .then((value) => {
-                                    if (value != null)
-                                      {
-                                        if (value.emailVerified)
-                                          {
-                                            print("pushing to home"),
-                                            Navigator.of(context)
-                                                .pushNamedAndRemoveUntil(
-                                                    '/home', (route) => false),
-                                          }
-                                        else
-                                          {
-                                            print("email not verified"),
-                                            auth
-                                                .checkEmailVerification()
-                                                .then((value) => print(value)),
-                                            //TODO Email verification screen
-                                          }
-                                      }
-                                  });
-                        } else {
-                          new SnackBar(
-                              content: Text(
-                                  "Password need to be atleast 6 characters"));
-                        }
-                      } else {
-                        new SnackBar(
-                            content: Text("Enter a valid email or password"));
-                      }
-                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      //     builder: (context) => HomeScreen()));
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.all(20),
+                // Boxes
+                Column(
+                  children: [
+                    Container(
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white),
-                      padding: EdgeInsets.all(18),
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Visibility(
-                              visible: true,
-                              child: Text(
-                                "LOGIN",
-                                style: TextStyle(
-                                    color: Colors.purple, fontSize: 16),
-                              ),
-                            ),
-                            Visibility(
-                              visible: false,
-                              child: Container(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.purple,
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(10)),
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(10),
+                      child: TextField(
+                        cursorColor: Colors.white30,
+                        textAlign: TextAlign.center,
+                        onChanged: (String text) {
+                          print(text);
+                        },
+                        controller: _emailController,
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                        decoration: InputDecoration(
+                            hintText: "Email",
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(color: Colors.grey[400])),
+                        maxLines: 1,
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black12,
+                          borderRadius: BorderRadius.circular(10)),
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      padding: EdgeInsets.all(10),
+                      child: TextField(
+                        obscureText: true,
+                        cursorColor: Colors.white30,
+                        textAlign: TextAlign.center,
+                        controller: _passwordController,
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                        decoration: InputDecoration(
+                            hintText: "Password",
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(color: Colors.grey[400])),
+                        maxLines: 1,
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(20),
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          "FORGOT ?",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(color: Colors.white38),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+
+                // Footer
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        if (_emailController.text.isNotEmpty &&
+                            _passwordController.text.isNotEmpty) {
+                          if (_passwordController.text.length >= 6) {
+                            auth
+                                .emailLogin(_emailController.text,
+                                    _passwordController.text, context)
+                                .then((value) => {
+                                      if (value != null)
+                                        {
+                                          if (value.emailVerified)
+                                            {
+                                              print("pushing to home"),
+                                              Navigator.of(context)
+                                                  .pushNamedAndRemoveUntil(
+                                                      '/home',
+                                                      (route) => false),
+                                            }
+                                          else
+                                            {
+                                              auth
+                                                  .checkEmailVerification()
+                                                  .then(
+                                                      (value) => print(value)),
+                                              _showSnackbar(
+                                                  "Email not verified !"),
+                                              setState(() {
+                                                _showDialog = true;
+                                              }),
+                                            }
+                                        }
+                                    });
+                          } else {
+                            _showSnackbar(
+                                "Password need to be atleast 6 characters");
+                          }
+                        } else {
+                          _showSnackbar("Enter a valid password");
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.white),
+                        padding: EdgeInsets.all(18),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Visibility(
+                                visible: true,
+                                child: Text(
+                                  "LOGIN",
+                                  style: TextStyle(
+                                      color: Colors.purple, fontSize: 16),
                                 ),
                               ),
-                            )
-                          ],
+                              Visibility(
+                                visible: false,
+                                child: Container(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.purple,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: PrivacyPolicyText(),
-                  )
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: PrivacyPolicyText(),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Visibility(
+              visible: _showDialog,
+              child: Dialog(
+                child: Container(
+                  width: 300,
+                  height: 200,
+                ),
               ),
-            ],
-          ),
+            )
+          ]),
         ),
       ),
     );
+  }
+
+  _showSnackbar(String message) {
+    snackbar = new SnackBar(
+        backgroundColor: Colors.white,
+        content: Container(
+          width: double.infinity,
+          height: 40,
+          alignment: Alignment.center,
+          child: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.black54,
+                fontSize: 14,
+                fontWeight: FontWeight.bold),
+          ),
+        ));
+
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 }

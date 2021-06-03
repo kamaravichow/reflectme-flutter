@@ -9,43 +9,34 @@ import 'package:gratitude/screens/splash.dart';
 import 'package:gratitude/services/auth.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MultiProvider(
-            providers: [
-              StreamProvider<User?>.value(
-                  value: AuthService().userAuthState,
-                  initialData: FirebaseAuth.instance.currentUser),
-            ],
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme:
-                  ThemeData(fontFamily: "Nunito", brightness: Brightness.light),
-              home: SplashScreen(),
-              routes: {
-                '/splash': (context) => SplashScreen(),
-                '/login': (context) => LoginScreen(),
-                '/signup': (context) => SignUpScreen(),
-                '/home': (context) => HomeScreen(),
-              },
-            ),
-          );
-        }
-        return SplashScreen();
-      },
+    return MultiProvider(
+      providers: [
+        StreamProvider<User?>.value(
+            value: AuthService().userAuthState,
+            initialData: FirebaseAuth.instance.currentUser),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: "Nunito", brightness: Brightness.light),
+        routes: {
+          '/': (context) => SplashScreen(),
+          '/started': (context) => GettingStartedScreen(),
+          '/login': (context) => LoginScreen(),
+          '/signup': (context) => SignUpScreen(),
+          '/home': (context) => HomeScreen(),
+        },
+      ),
     );
   }
 }

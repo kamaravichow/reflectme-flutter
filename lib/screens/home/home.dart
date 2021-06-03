@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _state = 0;
-  Duration _animDuration = Duration(milliseconds: 500);
+  Duration _animDuration = Duration(milliseconds: 800);
 
   double _screenHeight = 0;
 
