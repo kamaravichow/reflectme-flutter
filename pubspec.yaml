@@ -30,9 +30,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
   intl: ^0.17.0
-  firebase_core:
-  firebase_auth:
-  cloud_firestore:
+  firebase_core: "^1.2.0"
+  firebase_auth: "^1.2.0"
+  cloud_firestore: "^2.2.0"
   rxdart: ^0.27.1
   url_launcher: ^6.0.4
   timeago: ^3.0.2
@@ -43,6 +43,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app.png"
 
 
 # The following section is specific to Flutter.

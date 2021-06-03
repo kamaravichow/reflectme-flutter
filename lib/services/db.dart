@@ -6,10 +6,10 @@ class DatabaseService {
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<List<Entries>> getJournalEntries(String userId) async {
-    print("calling database");
     return _db
         .collection('entries')
         .where("author", isEqualTo: userId)
+        .orderBy("timestamp", descending: true)
         .get()
         .then((QuerySnapshot snap) =>
             snap.docs.map((e) => Entries.fromMap(e.data() as Map)).toList());

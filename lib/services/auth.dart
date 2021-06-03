@@ -20,6 +20,7 @@ class AuthService {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+      updateUserdata(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         _showSnackbar('The password provided is too weak.', context);
@@ -70,6 +71,7 @@ class AuthService {
     DocumentReference users = _db.collection("users").doc(user!.uid);
     return users.set({
       'id': user.uid,
+      'email': user.email,
       'nickname': name,
       'login': DateTime.now(),
       'created': DateTime.now(),
