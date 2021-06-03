@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gratitude/services/auth.dart';
-import 'package:provider/provider.dart';
+import 'package:gratitude/services/prefrences.dart';
 
 class AccountScreen extends StatefulWidget {
   @override
@@ -10,9 +9,15 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   AuthService auth = AuthService();
+  PrefrenceManager prefrenceManager = PrefrenceManager();
+
+  String name = '';
 
   @override
   Widget build(BuildContext context) {
+    prefrenceManager.getNickname().then((value) => {
+          name = value,
+        });
     return Scaffold(
       body: Container(
         child: Column(
@@ -35,7 +40,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Aravi",
+                        name,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 30,

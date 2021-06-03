@@ -1,12 +1,10 @@
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gratitude/services/auth.dart';
 import 'package:gratitude/services/prefrences.dart';
 import 'package:gratitude/shared/common.dart';
 import 'package:gratitude/shared/verifydialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -53,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Title
+                      // ------------------- Title
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 40, vertical: 20),
@@ -67,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
 
-                      // Boxes
+                      // ---------------------- TextField
                       Column(
                         children: [
                           Container(
@@ -116,7 +114,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
 
-                      // Footer
+                      // ----------------------- Footer
                       Column(
                         children: [
                           GestureDetector(
@@ -174,7 +172,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // Title
+                      // ---------------------------------
+                      // ---------------------- Title
+                      //-----------------------------------
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 40, vertical: 20),
@@ -191,6 +191,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // Boxes
                       Column(
                         children: [
+                          //---------------TEXT FIELDS ------------------//
+
                           Container(
                             decoration: BoxDecoration(
                                 color: Colors.black12,
@@ -200,6 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: TextField(
                               cursorColor: Colors.white30,
                               textAlign: TextAlign.center,
+                              controller: _emailController,
                               style:
                                   TextStyle(fontSize: 18, color: Colors.white),
                               decoration: InputDecoration(
@@ -210,6 +213,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               maxLines: 1,
                             ),
                           ),
+                          // -------------------------------------------//
                           Container(
                             decoration: BoxDecoration(
                                 color: Colors.black12,
@@ -218,6 +222,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             padding: EdgeInsets.all(10),
                             child: TextField(
                               obscureText: true,
+                              controller: _passwordController,
                               cursorColor: Colors.white30,
                               textAlign: TextAlign.center,
                               style:
@@ -240,32 +245,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               style: TextStyle(color: Colors.white38),
                             ),
                           )
+                          // --------------------------------------------//
                         ],
                       ),
-
-                      // Footer
+                      // ---------------------------
+                      // ----------------- Footer
+                      // ---------------------------
                       Column(
                         children: [
                           GestureDetector(
                             onTap: () {
-                              auth
-                                  .emailSignUp(_emailController.text,
-                                      _passwordController.text)
-                                  .then((value) => {
-                                        // account created now check for email verification
-                                        auth.checkEmailVerification().then(
-                                              (value) => {
-                                                if (value)
-                                                  {}
-                                                else
-                                                  {
-                                                    setState(() {
-                                                      _verifyDialog = true;
-                                                    }),
-                                                  }
-                                              },
-                                            ),
-                                      });
+                              if (_emailController.text.isNotEmpty &&
+                                  _passwordController.text.isNotEmpty) {
+                                if (_passwordController.text.length >= 6) {
+                                  auth
+                                      .emailSignUp(_emailController.text,
+                                          _passwordController.text, context)
+                                      .then((value) => {
+                                            // account created now check for email verification
+                                            auth.checkEmailVerification().then(
+                                                  (value) => {
+                                                    if (value)
+                                                      {
+                                                        // doesn't happen usually
+                                                        Navigator.of(context)
+                                                            .pushNamedAndRemoveUntil(
+                                                                '/home',
+                                                                (route) =>
+                                                                    false),
+                                                      }
+                                                    else
+                                                      {
+                                                        setState(() {
+                                                          _verifyDialog = true;
+                                                        }),
+                                                      }
+                                                  },
+                                                ),
+                                          });
+                                } else {
+                                  _showSnackbar(
+                                      "Password need to be atleast 6 characters");
+                                }
+                              } else {
+                                _showSnackbar(
+                                    "Email or password cannot be empty");
+                              }
                             },
                             child: Container(
                               width: double.infinity,
@@ -303,6 +328,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
+                          //----------------------- ---------------------//
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: PrivacyPolicyText(),
@@ -313,6 +339,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               ),
+              // ---------------------------VERIFICATION DIALOG ------------//
+              // ----------------------------------------------------------//
               Visibility(
                 visible: _verifyDialog,
                 child: VerificationDialog(),
@@ -322,5 +350,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  _showSnackbar(String message) {
+    var snackbar = new SnackBar(
+        backgroundColor: Colors.white,
+        content: Container(
+          width: double.infinity,
+          height: 40,
+          alignment: Alignment.center,
+          child: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.black54,
+                fontSize: 14,
+                fontWeight: FontWeight.bold),
+          ),
+        ));
+
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 }

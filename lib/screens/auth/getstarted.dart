@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gratitude/screens/auth/login.dart';
 import 'package:gratitude/screens/auth/signup.dart';
-import 'package:provider/provider.dart';
 import 'package:rive/rive.dart' as rive;
 
 class GettingStartedScreen extends StatefulWidget {

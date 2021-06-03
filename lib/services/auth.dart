@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gratitude/services/prefrences.dart';
 
 class AuthService {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
@@ -12,15 +15,16 @@ class AuthService {
 
   User? get user => _auth.currentUser;
 
-  Future<User?> emailSignUp(String email, String password) async {
+  Future<User?> emailSignUp(
+      String email, String password, BuildContext context) async {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        _showSnackbar('The password provided is too weak.', context);
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        _showSnackbar('The account already exists for that email.', context);
       }
     } catch (e) {
       print(e);
@@ -42,7 +46,7 @@ class AuthService {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       print("updating user data");
-      updateUserdata(userCredential.user);
+      getUserdata(userCredential.user);
       return userCredential.user;
     } on FirebaseAuthException catch (e) {
       _showSnackbar(e.message ?? 'Error', context);
@@ -50,11 +54,26 @@ class AuthService {
     }
   }
 
-  Future<void> updateUserdata(User? user) {
+  Future<void> getUserdata(User? user) {
     DocumentReference users = _db.collection("users").doc(user!.uid);
     return users.set({
       'id': user.uid,
       'login': DateTime.now(),
+    }, SetOptions(merge: true));
+  }
+
+  Future<void> updateUserdata(User? user) {
+    String name = '';
+    PrefrenceManager().getNickname().then((value) => {
+          name = value,
+        });
+    DocumentReference users = _db.collection("users").doc(user!.uid);
+    return users.set({
+      'id': user.uid,
+      'nickname': name,
+      'login': DateTime.now(),
+      'created': DateTime.now(),
+      'country': Platform.localeName.substring(3, 5),
     }, SetOptions(merge: true));
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gratitude/screens/home/home.dart';
 import 'package:gratitude/services/auth.dart';
 import 'package:gratitude/shared/verifydialog.dart';
 import '../../shared/common.dart';
@@ -129,7 +128,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                           {
                                             if (value.emailVerified)
                                               {
-                                                print("pushing to home"),
                                                 Navigator.of(context)
                                                     .pushNamedAndRemoveUntil(
                                                         '/home',

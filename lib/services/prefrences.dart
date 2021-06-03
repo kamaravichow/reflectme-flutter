@@ -5,16 +5,13 @@ class PrefrenceManager {
 
   final String _nickname_key = 'nickname';
 
-  _init() async {
-    _preferences = await SharedPreferences.getInstance();
+  saveNickname(String name) async {
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
+    await _preferences.setString(_nickname_key, name);
   }
 
-  saveNickname(String name) async {
-    if (_preferences == null) {
-      _init();
-      await _preferences.setString(_nickname_key, name);
-    } else {
-      await _preferences.setString(_nickname_key, name);
-    }
+  Future<String> getNickname() async {
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
+    return _preferences.getString(_nickname_key) ?? 'Abhi';
   }
 }
