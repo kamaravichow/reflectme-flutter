@@ -46,7 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 // Title
                 Padding(
-                  padding: const EdgeInsets.all(10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                   child: Text(
                     "Welcome back,\nLet's get back to your account",
                     textAlign: TextAlign.center,

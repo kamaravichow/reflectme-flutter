@@ -5,7 +5,6 @@ import 'package:gratitude/screens/auth/getstarted.dart';
 import 'package:gratitude/screens/auth/login.dart';
 import 'package:gratitude/screens/auth/signup.dart';
 import 'package:gratitude/screens/home/home.dart';
-import 'package:gratitude/screens/splash.dart';
 import 'package:gratitude/services/auth.dart';
 import 'package:provider/provider.dart';
 
@@ -30,8 +29,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: "Nunito", brightness: Brightness.light),
         routes: {
-          '/': (context) => SplashScreen(),
-          '/started': (context) => GettingStartedScreen(),
+          '/': (context) => GettingStartedScreen(),
           '/login': (context) => LoginScreen(),
           '/signup': (context) => SignUpScreen(),
           '/home': (context) => HomeScreen(),
