@@ -49,14 +49,17 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                     Column(children: [
                       Container(
                         width: double.infinity,
-                        height: 230,
+                        height: 180,
                         padding: EdgeInsets.symmetric(vertical: 30),
-                        child: rive.RiveAnimation.asset("assets/rive/luci.riv"),
+                        child: rive.RiveAnimation.asset(
+                          "assets/rive/abhi.riv",
+                          animation: 'blink',
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          "Hello,\nI'm Abhi.",
+                          "Hello, I'm Abhi",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 30,
@@ -105,7 +108,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                                   Visibility(
                                     visible: true,
                                     child: Text(
-                                      "CONTINUE",
+                                      "HI, ABHI !",
                                       style: TextStyle(
                                         color: Colors.purple,
                                         fontSize: 16,
@@ -206,10 +209,11 @@ class _GettingStartedScreenState extends State<GettingStartedScreen> {
                             ),
                           ),
                           Container(
-                              width: 200,
-                              height: 200,
-                              child: rive.RiveAnimation.asset(
-                                  "assets/rive/logo.riv"))
+                            width: 200,
+                            height: 200,
+                            child: rive.RiveAnimation.asset(
+                                "assets/rive/abhi.riv"),
+                          ),
                         ],
                       ),
                     ),

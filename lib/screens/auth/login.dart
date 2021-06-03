@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gratitude/services/auth.dart';
 import 'package:gratitude/shared/verifydialog.dart';
+import 'package:rive/rive.dart' as rive;
 import '../../shared/common.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -41,16 +42,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Title
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 20),
-                    child: Text(
-                      "Welcome back,\nLet's get back to your account",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white30,
-                      ),
+                  Container(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 100,
+                          child: rive.RiveAnimation.asset(
+                            "assets/rive/abhi.riv",
+                            animation: 'blink',
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 2, vertical: 5),
+                          child: Text(
+                            "Welcome back,\nLet's get back to your\naccount",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white38,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
 

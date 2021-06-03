@@ -5,6 +5,7 @@ import 'package:gratitude/services/auth.dart';
 import 'package:gratitude/services/prefrences.dart';
 import 'package:gratitude/shared/common.dart';
 import 'package:gratitude/shared/verifydialog.dart';
+import 'package:rive/rive.dart' as rive;
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -24,6 +25,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _nicknameEntered = false;
   double windowWidth = 0;
   double windowHeight = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +58,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // ------------------- Title
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 20),
-                        child: Text(
-                          "So nice to meet you !\nWhat do you want to be called ?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white38,
-                          ),
+                      Container(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              child: rive.RiveAnimation.asset(
+                                "assets/rive/abhi.riv",
+                                animation: 'blink',
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 5),
+                              child: Text(
+                                "So nice to meet you !\nWhat do you want \nto be called ?",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
@@ -175,16 +197,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       // ---------------------------------
                       // ---------------------- Title
                       //-----------------------------------
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 40, vertical: 20),
-                        child: Text(
-                          "Finally, you'll need to create an account to secure your journal.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24,
-                            color: Colors.white38,
-                          ),
+
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              child: rive.RiveAnimation.asset(
+                                "assets/rive/abhi.riv",
+                                animation: 'blink',
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 2, vertical: 5),
+                              child: Text(
+                                "Finally, you'll need to \ncreate an account to\n secure your journal.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white38,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 
