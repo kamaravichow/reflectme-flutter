@@ -1,5 +1,7 @@
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PrivacyPolicyText extends StatelessWidget {
@@ -42,4 +44,17 @@ _launchURL() async {
   } else {
     throw 'Could not launch $url';
   }
+}
+
+class DateUtils {
+  DateTime getDateTimeFrom(String inputString) {
+    DateFormat format = DateFormat.yMMMMd();
+    return format.parse(inputString);
+  }
+
+  String getStringFrom(DateTime date) {
+    return new DateFormat.yMMMMd().format(date);
+  }
+
+  
 }

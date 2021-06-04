@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart' as rive;
 
 class InsightsScreen extends StatefulWidget {
   @override
@@ -24,70 +25,115 @@ class _InsightsScreenState extends State<InsightsScreen> {
                 end: Alignment(1.0, 1.0),
                 colors: [Colors.purple, Colors.purple, Colors.deepPurple])),
         child: SafeArea(
-            child: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
+            children: [
+              ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
                 children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      "Insights",
-                      style: TextStyle(fontSize: 24, color: Colors.black26),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "Insights",
+                            style:
+                                TextStyle(fontSize: 24, color: Colors.black26),
+                          ),
+                        ),
+                        Text(
+                          "No enough data",
+                          style: TextStyle(fontSize: 24, color: Colors.white),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Average Mood".toUpperCase(),
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.white54),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    "Mostly Happy",
-                    style: TextStyle(fontSize: 24, color: Colors.white),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Average Mood".toUpperCase(),
-                        style: TextStyle(fontSize: 16, color: Colors.white54),
-                      ),
-                    ],
-                  ),
+                  Container(
+                      width: double.infinity,
+                      height: 300,
+                      margin: EdgeInsets.all(10),
+                      child: LineChart(mainData())),
+                  Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    margin: EdgeInsets.all(10),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Weekly",
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black87),
+                            ),
+                            Text(
+                              "Your weekly happiness index",
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black38),
+                            ),
+                            Container(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                height: 220,
+                                width: double.infinity,
+                                child: BarChart(mainBarData()))
+                          ]),
+                    ),
+                  )
                 ],
               ),
-            ),
-            Container(
-                width: double.infinity,
-                height: 300,
-                margin: EdgeInsets.all(10),
-                child: LineChart(mainData())),
-            Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              margin: EdgeInsets.all(10),
-              child: Container(
+              Container(
+                color: Colors.black45,
                 padding: EdgeInsets.all(20),
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Weekly",
-                        style: TextStyle(fontSize: 16, color: Colors.black87),
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.white, width: 1),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Container(
+                        width: double.infinity,
+                        height: 200,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 100,
+                              margin: EdgeInsets.all(10),
+                              child: rive.RiveAnimation.asset(
+                                "assets/rive/abhi.riv",
+                                animation: 'blink',
+                              ),
+                            ),
+                            Text(
+                              "Need more check-ins to get insights",
+                              style: TextStyle(fontSize: 18),
+                            )
+                          ],
+                        ),
                       ),
-                      Text(
-                        "Your weekly happiness index",
-                        style: TextStyle(fontSize: 16, color: Colors.black38),
-                      ),
-                      Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          height: 220,
-                          width: double.infinity,
-                          child: BarChart(mainBarData()))
-                    ]),
-              ),
-            )
-          ],
-        )),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

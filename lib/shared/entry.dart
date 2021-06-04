@@ -13,7 +13,7 @@ class EntryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(left: 20),
+      margin: EdgeInsets.only(left: 20, top: 10),
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
