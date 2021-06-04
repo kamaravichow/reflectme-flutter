@@ -40,6 +40,9 @@ dependencies:
   rive: ^0.7.11
   shared_preferences: ^2.0.6
   tiktoklikescroller: ^0.1.6
+  screenshot: ^1.0.0-nullsafety.1
+  image_gallery_saver: ^1.6.9
+
   
 dev_dependencies:
   flutter_test:

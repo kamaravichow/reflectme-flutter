@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
             initialData: FirebaseAuth.instance.currentUser),
       ],
       child: MaterialApp(
+        navigatorObservers: [],
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: "Nunito", brightness: Brightness.light),
         routes: {
