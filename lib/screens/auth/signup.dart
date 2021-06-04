@@ -59,7 +59,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       // ------------------- Title
                       Container(
-                        child: Row(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -73,9 +73,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 5),
+                                  horizontal: 10, vertical: 5),
                               child: Text(
-                                "So nice to meet you !\nWhat do you want \nto be called ?",
+                                "So nice to meet you !\nWhat do you want to be called ?",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 24,
@@ -199,7 +199,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //-----------------------------------
 
                       Container(
-                        child: Row(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -213,9 +213,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 2, vertical: 5),
+                                  horizontal: 10, vertical: 5),
                               child: Text(
-                                "Finally, you'll need to \ncreate an account to\n secure your journal.",
+                                "Finally, you'll need to create an account to secure your journal.",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 24,

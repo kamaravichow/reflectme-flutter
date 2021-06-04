@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   // Title
                   Container(
-                    child: Row(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -57,9 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 2, vertical: 5),
+                              horizontal: 10, vertical: 5),
                           child: Text(
-                            "Welcome back,\nLet's get back to your\naccount",
+                            "Welcome back,\nLet's get back to youraccount",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 24,

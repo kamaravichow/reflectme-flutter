@@ -6,6 +6,7 @@ class DatabaseService {
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<List<Entries>> getJournalEntries(String userId) async {
+    print(userId);
     return _db
         .collection('entries')
         .where("author", isEqualTo: userId)

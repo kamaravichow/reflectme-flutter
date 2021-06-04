@@ -3,7 +3,6 @@ import 'package:gratitude/services/db.dart';
 import 'package:gratitude/services/models.dart';
 import 'package:gratitude/shared/entry.dart';
 import 'package:intl/intl.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class JournalScreen extends StatefulWidget {
   @override
