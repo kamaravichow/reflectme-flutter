@@ -46,10 +46,6 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ),
                 ),
-                Container(
-                    width: 200,
-                    height: 200,
-                    child: rive.RiveAnimation.asset("assets/rive/logo.riv"))
               ],
             ),
           ),
